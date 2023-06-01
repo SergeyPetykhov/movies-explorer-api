@@ -6,4 +6,4 @@ Backend-часть дипломного проекта курса Yandex Practic
 
 ## Ссылки на проект
 
-Backend https://api.movies-explorer-psv.nomoredomains.monster
+Backend https://api.movies-explorer-psv.nomoredomains.rocks

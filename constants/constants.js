@@ -15,12 +15,10 @@ const EMAIL_REGULAR_EXP = /^(([^<>()[\].,;:\s@"]+(\.[^<>()[\].,;:\s@"]+)*)|(".+"
 
 // разрешенные адреса для передачи запросов на сервер
 const ALLOWED_CORS = [
-  'http://mesto-psv.nomoredomains.monster', // ИЗМЕНИТЬ ПУТИ!!!!!!!!!!!!!!
-  'https://mesto-psv.nomoredomains.monster',
-  'http://api.mesto-psv.nomoredomains.monster',
-  'https://api.mesto-psv.nomoredomains.monster',
-  'http://158.160.15.128',
-  'https://158.160.15.128',
+  'http://api.movies-explorer-psv.nomoredomains.rocks',
+  'https://api.movies-explorer-psv.nomoredomains.rocks',
+  'http://158.160.26.157',
+  'https://158.160.26.157',
   'http://localhost:3000',
 ];
 

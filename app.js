@@ -45,7 +45,7 @@ app.use((req, res, next) => {
   const { method } = req; // Сохраняем тип запроса (HTTP-метод) в соответствующую переменную
   const requestHeaders = req.headers['access-control-request-headers']; // сохраняем список заголовков исходного запроса
 
-  // проверяем, что источник запроса есть среди разрешённых
+  // проверяем, что источник запроса в заголовке origin есть среди разрешённых
   if (ALLOWED_CORS.includes(origin)) {
     res.header('Access-Control-Allow-Origin', origin); // устанавливаем заголовок, который разрешает браузеру запросы с этого источника
   }
