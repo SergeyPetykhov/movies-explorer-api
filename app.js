@@ -22,7 +22,6 @@ const { centralErrorsHandler } = require('./middlewares/centralErrorsHandler');
 const { rootRouter } = require('./routes/index');
 
 const { ALLOWED_CORS, DEFAULT_ALLOWED_METHODS } = require('./constants/constants');
-
 const { DEV_PORT, DEV_DATABASE } = require('./constants/config');
 
 const { PORT, DATABASE } = process.env; // если нет файла .env, используем DEV_PORT, DEV_DATABASE
