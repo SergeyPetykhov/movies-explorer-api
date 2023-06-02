@@ -3,7 +3,6 @@ const jwt = require('jsonwebtoken');
 const { CREATED_CODE } = require('../constants/constants');
 const User = require('../models/users');
 const BadRequestError = require('../errors/BadRequestError');
-const NotFoundError = require('../errors/NotFoundError');
 const UnauthorizedError = require('../errors/UnauthorizedError');
 const ConflictError = require('../errors/ConflictError');
 
@@ -18,13 +17,7 @@ const getUserMe = (req, res, next) => {
       res.send(user);
     })
     .catch((err) => {
-      if (err.name === 'DocumentNotFoundError') {
-        next(new NotFoundError('Передан несуществующий _id пользователя'));
-      } else if (err.name === 'CastError') {
-        next(new BadRequestError('Передан некорректный _id пользователя'));
-      } else {
-        next(err);
-      }
+      next((err));
     });
 };
 
@@ -74,12 +67,10 @@ const updateUserData = (req, res, next) => {
       res.send(user);
     })
     .catch((err) => {
-      if (err.name === 'DocumentNotFoundError') {
-        next(new NotFoundError('Передан несуществующий _id пользователя'));
-      } else if (err.name === 'CastError') {
-        next(new BadRequestError('Передан некорректный _id пользователя'));
+      if (err.code === 11000) {
+        next(new ConflictError('Пользователь с таким E-mail уже существует'));
       } else if (err.name === 'ValidationError') {
-        next(new BadRequestError('Переданы некорректные данные при обновлении данных пользователя'));
+        next(new BadRequestError('Переданы некорректные данные при обновлении информации о пользователе'));
       } else {
         next(err);
       }

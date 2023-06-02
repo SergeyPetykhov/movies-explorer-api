@@ -6,7 +6,7 @@ const { createUser } = require('../controllers/users');
 const signUpRouter = express.Router();
 
 // регистрируем нового пользователя
-signUpRouter.post('/signup', celebrate({
+signUpRouter.post('/', celebrate({
 
   // валидируем данные с помощью библиотеки Joi
   body: Joi.object().keys({

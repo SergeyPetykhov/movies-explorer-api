@@ -15,27 +15,24 @@ const limiter = rateLimit({
 const express = require('express');
 const mongoose = require('mongoose');
 
-const {
-  ALLOWED_CORS,
-  DEFAULT_ALLOWED_METHODS,
-} = require('./constants/constants');
+const app = express();
 
 const { requestLogger, errorLogger } = require('./middlewares/logger');
 const { centralErrorsHandler } = require('./middlewares/centralErrorsHandler');
+const { rootRouter } = require('./routes/index');
 
-const { signUpRouter } = require('./routes/signUp');
-const { signInRouter } = require('./routes/signIn');
-const { userRouter } = require('./routes/users');
-const { movieRouter } = require('./routes/movies');
-const { wrongWayRouter } = require('./routes/wrongWay');
+const { ALLOWED_CORS, DEFAULT_ALLOWED_METHODS } = require('./constants/constants');
 
-const app = express();
-const { PORT = 3000 } = process.env; // если нет файла .env, по умолчанию используем 3000 порт
+const { DEV_PORT, DEV_DATABASE } = require('./constants/config');
 
-mongoose.connect('mongodb://127.0.0.1:27017/bitfilmsdb'); // подключаемся к локальной базе данных
+const { PORT, DATABASE } = process.env; // если нет файла .env, используем DEV_PORT, DEV_DATABASE
+
+mongoose.connect(DATABASE || DEV_DATABASE); // подключаемся к базе данных
 
 // UTILS
 app.use(express.json());
+
+// DEFENSE UTILS
 app.use(helmet());
 app.use(limiter);
 
@@ -68,20 +65,8 @@ app.use((req, res, next) => {
 // подключаем логгер запросов
 app.use(requestLogger);
 
-// запрос на регистрацию нового пользователя
-app.use(signUpRouter);
-
-// запрос на авторизацию пользователя
-app.use(signInRouter);
-
-// запрос к сущности Users
-app.use(userRouter); // защищён авторизацией с помощью middlewares auth
-
-// запрос к сущности Movies
-app.use(movieRouter); // защищён авторизацией с помощью middlewares auth
-
-// запрос на несуществующий роут
-app.use(wrongWayRouter); // защищён авторизацией с помощью middlewares auth
+// подключаем корневой роутер
+app.use('/', rootRouter);
 
 // подключаем логгер ошибок
 app.use(errorLogger);
@@ -92,7 +77,7 @@ app.use(errors());
 // централизованный обработчик ошибок
 app.use(centralErrorsHandler);
 
-// будем принимать сообщения с указанного порта "const - PORT"
-app.listen(PORT, () => {
-  console.log(`Сервер открыт на порту: ${PORT}`);
+// будем принимать сообщения с указанного порта PORT || DEV_PORT
+app.listen(PORT || DEV_PORT, () => {
+  console.log(`Сервер открыт на порту: ${PORT || DEV_PORT}`);
 });

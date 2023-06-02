@@ -1,6 +1,5 @@
 const express = require('express');
 const { celebrate, Joi } = require('celebrate');
-const { auth } = require('../middlewares/auth'); // защищаем роуты с помощью авторизации
 const { URL_REGULAR_EXP } = require('../constants/constants');
 const {
   getMovies,
@@ -12,10 +11,10 @@ const {
 const movieRouter = express.Router();
 
 // возвращаем все сохранённые текущим пользователем фильмы
-movieRouter.get('/movies', auth, getMovies);
+movieRouter.get('/', getMovies);
 
 // создаём фильм с переданными в body данными
-movieRouter.post('/movies', auth, celebrate({
+movieRouter.post('/', celebrate({
 
   // валидируем данные с помощью библиотеки Joi
   body: Joi.object().keys({
@@ -34,11 +33,11 @@ movieRouter.post('/movies', auth, celebrate({
 }), createMovie);
 
 // удаляем фильм по Id переданным через params
-movieRouter.delete('/cards/:movieId', auth, celebrate({
+movieRouter.delete('/:movieId', celebrate({
 
   // валидируем данные с помощью библиотеки Joi
   params: Joi.object().keys({
-    movieId: Joi.string().required().hex().length(24),
+    movieId: Joi.number().required(),
   }),
 }), deleteMovie);
 

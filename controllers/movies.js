@@ -6,7 +6,8 @@ const NotFoundError = require('../errors/NotFoundError');
 
 // возвращает все сохранённые текущим  пользователем фильмы
 const getMovies = (req, res, next) => {
-  Movie.find()
+  const ownerId = req.user._id;
+  Movie.find({ owner: ownerId })
     .then((movie) => {
       res.send(movie);
     })
@@ -63,13 +64,13 @@ const deleteMovie = (req, res, next) => {
   const userId = req.user._id;
   const { movieId } = req.params;
 
-  Movie.findById(movieId)
+  Movie.findOne({ movieId })
     .orFail()
     .then((movie) => {
       const ownerId = movie.owner._id.toString();
 
       if (userId === ownerId) {
-        Movie.findByIdAndRemove(movieId)
+        Movie.deleteOne({ movieId })
           .orFail()
           .then(() => {
             res.send({ message: 'Фильм удалён' });

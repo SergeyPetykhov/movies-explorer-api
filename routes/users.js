@@ -1,6 +1,5 @@
 const express = require('express');
 const { celebrate, Joi } = require('celebrate');
-const { auth } = require('../middlewares/auth');
 const { EMAIL_REGULAR_EXP } = require('../constants/constants');
 const {
   getUserMe,
@@ -11,10 +10,10 @@ const {
 const userRouter = express.Router();
 
 // возвращаем данные пользователя
-userRouter.get('/users/me', auth, getUserMe);
+userRouter.get('/me', getUserMe);
 
 // обновляем данные пользователя
-userRouter.patch('/users/me', auth, celebrate({
+userRouter.patch('/me', celebrate({
 
   // валидируем данные с помощью библиотеки Joi
   body: Joi.object().keys({
