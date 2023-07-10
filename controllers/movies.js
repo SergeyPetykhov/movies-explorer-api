@@ -64,13 +64,12 @@ const deleteMovie = (req, res, next) => {
   const userId = req.user._id;
   const { movieId } = req.params;
 
-  Movie.findOne({ movieId })
+  Movie.findOne({ movieId, owner: userId })
     .orFail()
     .then((movie) => {
       const ownerId = movie.owner._id.toString();
-
       if (userId === ownerId) {
-        Movie.deleteOne({ movieId })
+        Movie.deleteOne({ movieId, owner: userId })
           .orFail()
           .then(() => {
             res.send({ message: 'Фильм удалён' });
