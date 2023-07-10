@@ -17,8 +17,10 @@ const EMAIL_REGULAR_EXP = /^(([^<>()[\].,;:\s@"]+(\.[^<>()[\].,;:\s@"]+)*)|(".+"
 const ALLOWED_CORS = [
   'http://api.movies-explorer-psv.nomoredomains.rocks',
   'https://api.movies-explorer-psv.nomoredomains.rocks',
-  'http://158.160.26.157',
-  'https://158.160.26.157',
+  'http://movies-explorer-psv.nomoredomains.rocks',
+  'https://movies-explorer-psv.nomoredomains.rocks',
+  'http://158.160.68.99',
+  'https://158.160.68.99',
   'http://localhost:3000',
   'http://localhost:3001',
 ];
